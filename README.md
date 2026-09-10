@@ -1,7 +1,5 @@
 # BibleRest — English, Myanmar & Chin
 
-An independent Bible reader for English, Myanmar and two Chin branches. English and Myanmar text comes from Wordproject; Chin text was imported from the supplied Bible APKs.
-
 **Live site: https://biblerest.netlify.app**
 
 No account, database, API key or backend is required. The app is a static single-page React build; all four translations ship as JSON files and every preference stays in your browser.
