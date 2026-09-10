@@ -3,396 +3,528 @@
     "id": 1,
     "en": "Genesis",
     "chapters": 50,
-    "my": "ကမ္ဘာဦးကျမ်း"
+    "my": "ကမ္ဘာဦးကျမ်း",
+    "clt": "SAHRUOTHUNA",
+    "cnh": "GENESIS"
   },
   {
     "id": 2,
     "en": "Exodus",
     "chapters": 40,
-    "my": "ထွက်မြောက်ရာကျမ်း။"
+    "my": "ထွက်မြောက်ရာကျမ်း။",
+    "clt": "PYASENA",
+    "cnh": "EXODUS"
   },
   {
     "id": 3,
     "en": "Leviticus",
     "chapters": 27,
-    "my": "ဝတ်ပြုရာကျမ်း"
+    "my": "ဝတ်ပြုရာကျမ်း",
+    "clt": "TLUOBYI RE",
+    "cnh": "LEVITIKAS"
   },
   {
     "id": 4,
     "en": "Numbers",
     "chapters": 36,
-    "my": "တောလည်ရာကျမ်း"
+    "my": "တောလည်ရာကျမ်း",
+    "clt": "MINGLUV RINA",
+    "cnh": "NAMBAR"
   },
   {
     "id": 5,
     "en": "Deuteronomy",
     "chapters": 34,
-    "my": "တရားဟောရာကျမ်း"
+    "my": "တရားဟောရာကျမ်း",
+    "clt": "PHUNGBIE PICANYINA",
+    "cnh": "DEUTERONOMI"
   },
   {
     "id": 6,
     "en": "Joshua",
     "chapters": 24,
-    "my": "ယောရှုမှတ်စာ။"
+    "my": "ယောရှုမှတ်စာ။",
+    "clt": "JOSHUO",
+    "cnh": "JOSHUA ­"
   },
   {
     "id": 7,
     "en": "Judges",
     "chapters": 21,
-    "my": "တရားသူကြီးမှတ်စာ"
+    "my": "တရားသူကြီးမှတ်စာ",
+    "clt": "BIERIPATUV",
+    "cnh": "BIACEIHTU"
   },
   {
     "id": 8,
     "en": "Ruth",
     "chapters": 4,
-    "my": "ရုသဝတ္ထု။"
+    "my": "ရုသဝတ္ထု။",
+    "clt": "RUTH",
+    "cnh": "RUTH"
   },
   {
     "id": 9,
     "en": "1 Samuel",
     "chapters": 31,
-    "my": "ဓမ္မရာဇဝင်​‌ပဋ္ဌမစောင်"
+    "my": "ဓမ္မရာဇဝင်​‌ပဋ္ဌမစောင်",
+    "clt": "1 SAMUEL",
+    "cnh": "1 SAMUEL"
   },
   {
     "id": 10,
     "en": "2 Samuel",
     "chapters": 24,
-    "my": "ဓမ္မရာဇဝင်​‌ဒုတိယစောင်။"
+    "my": "ဓမ္မရာဇဝင်​‌ဒုတိယစောင်။",
+    "clt": "2 SAMUEL",
+    "cnh": "2 SAMUEL"
   },
   {
     "id": 11,
     "en": "1 Kings",
     "chapters": 22,
-    "my": "ဓမ္မရာဇဝင်​တတိယစောင်။"
+    "my": "ဓမ္မရာဇဝင်​တတိယစောင်။",
+    "clt": "1 SIEPAHRUO",
+    "cnh": "1 SIANGPAHRANG"
   },
   {
     "id": 12,
     "en": "2 Kings",
     "chapters": 25,
-    "my": "ဓမ္မရာဇဝင်​‌စတုတ္ထစောင်။"
+    "my": "ဓမ္မရာဇဝင်​‌စတုတ္ထစောင်။",
+    "clt": "2 SIEPAHRUO",
+    "cnh": "2 SIANGPAHRANG"
   },
   {
     "id": 13,
     "en": "1 Chronicles",
     "chapters": 29,
-    "my": "ရာဇဝင်ချုပ်​ပဌမစောင်။"
+    "my": "ရာဇဝင်ချုပ်​ပဌမစောင်။",
+    "clt": "1 CHUORINA",
+    "cnh": "1 CHANRELNAK"
   },
   {
     "id": 14,
     "en": "2 Chronicles",
     "chapters": 36,
-    "my": "ရာဇဝင်ချုပ်​ဒုတိယစောင်။"
+    "my": "ရာဇဝင်ချုပ်​ဒုတိယစောင်။",
+    "clt": "2 CHUORINA",
+    "cnh": "2 CHANRELNAK"
   },
   {
     "id": 15,
     "en": "Ezra",
     "chapters": 10,
-    "my": "ဧဇရမှတ်စာ။"
+    "my": "ဧဇရမှတ်စာ။",
+    "clt": "EZRA",
+    "cnh": "EZRA"
   },
   {
     "id": 16,
     "en": "Nehemiah",
     "chapters": 13,
-    "my": "နေဟမိမှတ်စာ။"
+    "my": "နေဟမိမှတ်စာ။",
+    "clt": "NEHEMIAH",
+    "cnh": "NEHEMIAH"
   },
   {
     "id": 17,
     "en": "Esther",
     "chapters": 10,
-    "my": "ဧသတာဝတ္ထု။"
+    "my": "ဧသတာဝတ္ထု။",
+    "clt": "ESTHER",
+    "cnh": "ESTHER"
   },
   {
     "id": 18,
     "en": "Job",
     "chapters": 42,
-    "my": "ယောဘဝတ္ထု။"
+    "my": "ယောဘဝတ္ထု။",
+    "clt": "JOB",
+    "cnh": "JOB"
   },
   {
     "id": 19,
     "en": "Psalms",
     "chapters": 150,
-    "my": "ဆာလံကျမ်း"
+    "my": "ဆာလံကျမ်း",
+    "clt": "SALM",
+    "cnh": "SALM"
   },
   {
     "id": 20,
     "en": "Proverbs",
     "chapters": 31,
-    "my": "သုတ္တံကျမ်း။"
+    "my": "သုတ္တံကျမ်း။",
+    "clt": "PHUNGTHLUVBIE",
+    "cnh": "PHUNGTHLUKBIA"
   },
   {
     "id": 21,
     "en": "Ecclesiastes",
     "chapters": 12,
-    "my": "ဒေသနာကျမ်း။"
+    "my": "ဒေသနာကျမ်း။",
+    "clt": "PHUNGRITUV",
+    "cnh": "PHUNGCHIMTU"
   },
   {
     "id": 22,
     "en": "Song of Solomon",
     "chapters": 8,
-    "my": "ရှောလမုန်သီချင်း။"
+    "my": "ရှောလမုန်သီချင်း။",
+    "clt": "SOLOMON HLAA",
+    "cnh": "SOLOMON HLA"
   },
   {
     "id": 23,
     "en": "Isaiah",
     "chapters": 66,
-    "my": "ဟေရှာယအနာဂတ္တိကျမ်း။"
+    "my": "ဟေရှာယအနာဂတ္တိကျမ်း။",
+    "clt": "ISAIAH",
+    "cnh": "ISAIAH"
   },
   {
     "id": 24,
     "en": "Jeremiah",
     "chapters": 52,
-    "my": "ယေရမိအနာဂတ္တိကျမ်း။"
+    "my": "ယေရမိအနာဂတ္တိကျမ်း။",
+    "clt": "JEREMIAH",
+    "cnh": "JEREMIAH"
   },
   {
     "id": 25,
     "en": "Lamentations",
     "chapters": 5,
-    "my": "ယေရမိမြည်တမ်းစကား။"
+    "my": "ယေရမိမြည်တမ်းစကား။",
+    "clt": "CAANA HLAA",
+    "cnh": "ṬAHNAK HLA"
   },
   {
     "id": 26,
     "en": "Ezekiel",
     "chapters": 48,
-    "my": "ယေဇကျေလအနာဂတ္တိကျမ်း။"
+    "my": "ယေဇကျေလအနာဂတ္တိကျမ်း။",
+    "clt": "EZEKIEL",
+    "cnh": "EZEKIEL"
   },
   {
     "id": 27,
     "en": "Daniel",
     "chapters": 12,
-    "my": "ဒံယေလအနာဂတ္တိကျမ်း။"
+    "my": "ဒံယေလအနာဂတ္တိကျမ်း။",
+    "clt": "DANIEL",
+    "cnh": "DANIEL"
   },
   {
     "id": 28,
     "en": "Hosea",
     "chapters": 14,
-    "my": "ဟောရှေအနာဂတ္တိကျမ်း"
+    "my": "ဟောရှေအနာဂတ္တိကျမ်း",
+    "clt": "HOSEA",
+    "cnh": "HOSEA"
   },
   {
     "id": 29,
     "en": "Joel",
     "chapters": 3,
-    "my": "ယောလအနာဂတ္တိကျမ်း။"
+    "my": "ယောလအနာဂတ္တိကျမ်း။",
+    "clt": "JOEL",
+    "cnh": "JOEL"
   },
   {
     "id": 30,
     "en": "Amos",
     "chapters": 9,
-    "my": "အာမုတ်အနာဂတ္တိကျမ်း။"
+    "my": "အာမုတ်အနာဂတ္တိကျမ်း။",
+    "clt": "AMO",
+    "cnh": "AMOS"
   },
   {
     "id": 31,
     "en": "Obadiah",
     "chapters": 1,
-    "my": "ဩဗဒိဗျာဒိတ်ရူပါရုံ"
+    "my": "ဩဗဒိဗျာဒိတ်ရူပါရုံ",
+    "clt": "OBA",
+    "cnh": "OBADIAH"
   },
   {
     "id": 32,
     "en": "Jonah",
     "chapters": 4,
-    "my": "ယောနဝတ္ထု၊"
+    "my": "ယောနဝတ္ထု၊",
+    "clt": "JON",
+    "cnh": "JONAH"
   },
   {
     "id": 33,
     "en": "Micah",
     "chapters": 7,
-    "my": "မိက္ခာအနာဂတ္တိကျမ်း။"
+    "my": "မိက္ခာအနာဂတ္တိကျမ်း။",
+    "clt": "MIK",
+    "cnh": "MIKAH"
   },
   {
     "id": 34,
     "en": "Nahum",
     "chapters": 3,
-    "my": "နာဟုံအနာဂတ္တိကျမ်း"
+    "my": "နာဟုံအနာဂတ္တိကျမ်း",
+    "clt": "NAM",
+    "cnh": "NAHUM"
   },
   {
     "id": 35,
     "en": "Habakkuk",
     "chapters": 3,
-    "my": "ဟဗက္ကုတ်အနာဂတ္တိကျမ်း"
+    "my": "ဟဗက္ကုတ်အနာဂတ္တိကျမ်း",
+    "clt": "HAB",
+    "cnh": "HABAKKUK"
   },
   {
     "id": 36,
     "en": "Zephaniah",
     "chapters": 3,
-    "my": "ဇေဖနိအနာဂတ္တိကျမ်း"
+    "my": "ဇေဖနိအနာဂတ္တိကျမ်း",
+    "clt": "ZEFANIAH",
+    "cnh": "ZEFANIAH"
   },
   {
     "id": 37,
     "en": "Haggai",
     "chapters": 2,
-    "my": "ဟဂ္ဂဲအနာဂတ္တိကျမ်း"
+    "my": "ဟဂ္ဂဲအနာဂတ္တိကျမ်း",
+    "clt": "HAGGAI",
+    "cnh": "HAGGAI"
   },
   {
     "id": 38,
     "en": "Zechariah",
     "chapters": 14,
-    "my": "ဇာခရိအနာဂတ္တိကျမ်း"
+    "my": "ဇာခရိအနာဂတ္တိကျမ်း",
+    "clt": "ZEKHARIAH",
+    "cnh": "ZEKHARIAH"
   },
   {
     "id": 39,
     "en": "Malachi",
     "chapters": 4,
-    "my": "မာလခိအနာဂတ္တိကျမ်း"
+    "my": "မာလခိအနာဂတ္တိကျမ်း",
+    "clt": "MALAKHI",
+    "cnh": "MALAKHI"
   },
   {
     "id": 40,
     "en": "Matthew",
     "chapters": 28,
-    "my": "ရှင်မဿဲခရစ်ဝင်။"
+    "my": "ရှင်မဿဲခရစ်ဝင်။",
+    "clt": "MATTHAI",
+    "cnh": "MATTHAI"
   },
   {
     "id": 41,
     "en": "Mark",
     "chapters": 16,
-    "my": "ရှင်မာကုခရစ်ဝင်။"
+    "my": "ရှင်မာကုခရစ်ဝင်။",
+    "clt": "MARKA",
+    "cnh": "MARKA"
   },
   {
     "id": 42,
     "en": "Luke",
     "chapters": 24,
-    "my": "ရှင်လုကာခရစ်ဝင်။"
+    "my": "ရှင်လုကာခရစ်ဝင်။",
+    "clt": "LUKA",
+    "cnh": "LUKA"
   },
   {
     "id": 43,
     "en": "John",
     "chapters": 21,
-    "my": "ရှင်ယောဟန်ခရစ်ဝင်။"
+    "my": "ရှင်ယောဟန်ခရစ်ဝင်။",
+    "clt": "JOHAN",
+    "cnh": "JOHAN"
   },
   {
     "id": 44,
     "en": "Acts",
     "chapters": 28,
-    "my": "တမန်တော်ဝတ္ထု။"
+    "my": "တမန်တော်ဝတ္ထု။",
+    "clt": "LUCUOTUV",
+    "cnh": "LAMKALTU"
   },
   {
     "id": 45,
     "en": "Romans",
     "chapters": 16,
-    "my": "ရောမ​ဩဝါဒစာ။"
+    "my": "ရောမ​ဩဝါဒစာ။",
+    "clt": "ROM",
+    "cnh": "ROM"
   },
   {
     "id": 46,
     "en": "1 Corinthians",
     "chapters": 16,
-    "my": "ကောရိန္သု​ဩဝါဒစာ​ပဌမစောင်။"
+    "my": "ကောရိန္သု​ဩဝါဒစာ​ပဌမစောင်။",
+    "clt": "1 KORIN",
+    "cnh": "1 KORIN"
   },
   {
     "id": 47,
     "en": "2 Corinthians",
     "chapters": 13,
-    "my": "ကောရိန္သု​ဩဝါသစာ​ဒုတိယစောင်။"
+    "my": "ကောရိန္သု​ဩဝါသစာ​ဒုတိယစောင်။",
+    "clt": "2 KORIN",
+    "cnh": "2 KORIN"
   },
   {
     "id": 48,
     "en": "Galatians",
     "chapters": 6,
-    "my": "ဂလာတိ​ဩဝါဒစာ။"
+    "my": "ဂလာတိ​ဩဝါဒစာ။",
+    "clt": "GALATI",
+    "cnh": "GALATI"
   },
   {
     "id": 49,
     "en": "Ephesians",
     "chapters": 6,
-    "my": "ဧဖက်​ဩဝါဒစာ။"
+    "my": "ဧဖက်​ဩဝါဒစာ။",
+    "clt": "EFESA",
+    "cnh": "EFESA"
   },
   {
     "id": 50,
     "en": "Philippians",
     "chapters": 4,
-    "my": "ဖိလိပ္ပိ​ဩဝါဒစာ။"
+    "my": "ဖိလိပ္ပိ​ဩဝါဒစာ။",
+    "clt": "FILIPI",
+    "cnh": "FILIPI"
   },
   {
     "id": 51,
     "en": "Colossians",
     "chapters": 4,
-    "my": "ကောလောသဲ​ဩဝါဒစာ"
+    "my": "ကောလောသဲ​ဩဝါဒစာ",
+    "clt": "KOLOSE",
+    "cnh": "KOLOSE"
   },
   {
     "id": 52,
     "en": "1 Thessalonians",
     "chapters": 5,
-    "my": "သက်သာလောနိတ်​ဩဝါဒစာ​ပဋ္ဌမစောင်"
+    "my": "သက်သာလောနိတ်​ဩဝါဒစာ​ပဋ္ဌမစောင်",
+    "clt": "1 THESLON",
+    "cnh": "1 THESALON"
   },
   {
     "id": 53,
     "en": "2 Thessalonians",
     "chapters": 3,
-    "my": "သက်သာလောနိတ်​ဩဝါဒစာ​ဒုတိယစောင်"
+    "my": "သက်သာလောနိတ်​ဩဝါဒစာ​ဒုတိယစောင်",
+    "clt": "2 THESALON",
+    "cnh": "2 THESALON"
   },
   {
     "id": 54,
     "en": "1 Timothy",
     "chapters": 6,
-    "my": "တိမောသေ​ဩဝါဒစာ​ပဋ္ဌမစောင်"
+    "my": "တိမောသေ​ဩဝါဒစာ​ပဋ္ဌမစောင်",
+    "clt": "1 TIMOTE",
+    "cnh": "1 TIMOTE"
   },
   {
     "id": 55,
     "en": "2 Timothy",
     "chapters": 4,
-    "my": "တိမောသေ​ဩဝါဒစာ​ဒုတိယစောင်"
+    "my": "တိမောသေ​ဩဝါဒစာ​ဒုတိယစောင်",
+    "clt": "2 TIMOTE",
+    "cnh": "2 TIMOTE"
   },
   {
     "id": 56,
     "en": "Titus",
     "chapters": 3,
-    "my": "တိတု​ဩဝါဒစာ"
+    "my": "တိတု​ဩဝါဒစာ",
+    "clt": "TITAS",
+    "cnh": "TITAS"
   },
   {
     "id": 57,
     "en": "Philemon",
     "chapters": 1,
-    "my": "ဖိလေမုန်​ဩဝါဒစာ။"
+    "my": "ဖိလေမုန်​ဩဝါဒစာ။",
+    "clt": "FILEMON",
+    "cnh": "FILEMON"
   },
   {
     "id": 58,
     "en": "Hebrews",
     "chapters": 13,
-    "my": "ဟေဗြဲ​ဩဝါဒစာ။"
+    "my": "ဟေဗြဲ​ဩဝါဒစာ။",
+    "clt": "HEBRU",
+    "cnh": "HEBRU"
   },
   {
     "id": 59,
     "en": "James",
     "chapters": 5,
-    "my": "ရှင်ယာကုပ်​‌ဩဝါဒစာ။"
+    "my": "ရှင်ယာကုပ်​‌ဩဝါဒစာ။",
+    "clt": "JEIM",
+    "cnh": "JEIM"
   },
   {
     "id": 60,
     "en": "1 Peter",
     "chapters": 5,
-    "my": "ရှင်ပေတရု​ဩဝါဒစာ​ပဌမစောင်။"
+    "my": "ရှင်ပေတရု​ဩဝါဒစာ​ပဌမစောင်။",
+    "clt": "1 PETER",
+    "cnh": "1 PETER"
   },
   {
     "id": 61,
     "en": "2 Peter",
     "chapters": 3,
-    "my": "ရှင်ပေတရု​ဩဝါဒစာ​ဒုတိယစောင်။"
+    "my": "ရှင်ပေတရု​ဩဝါဒစာ​ဒုတိယစောင်။",
+    "clt": "2 PETER",
+    "cnh": "2 PETER"
   },
   {
     "id": 62,
     "en": "1 John",
     "chapters": 5,
-    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​ပဌမစောင်။"
+    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​ပဌမစောင်။",
+    "clt": "1 JOHN",
+    "cnh": "1 JOHAN"
   },
   {
     "id": 63,
     "en": "2 John",
     "chapters": 1,
-    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​ဒုတိယစောင်။"
+    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​ဒုတိယစောင်။",
+    "clt": "2 JOHN",
+    "cnh": "2 JOHAN"
   },
   {
     "id": 64,
     "en": "3 John",
     "chapters": 1,
-    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​တတိယစောင်။"
+    "my": "ရှင်ယောဟန်​‌ဩဝါဒစာ​တတိယစောင်။",
+    "clt": "3 JOHN",
+    "cnh": "3 JOHAN"
   },
   {
     "id": 65,
     "en": "Jude",
     "chapters": 1,
-    "my": "ရှင်ယုဒ​ဩဝါဒစာ။"
+    "my": "ရှင်ယုဒ​ဩဝါဒစာ။",
+    "clt": "JUDE",
+    "cnh": "JUDAS"
   },
   {
     "id": 66,
     "en": "Revelation",
     "chapters": 22,
-    "my": "ဗျာဒိတ်ကျမ်း။"
+    "my": "ဗျာဒိတ်ကျမ်း။",
+    "clt": "BIEPHU",
+    "cnh": "BIATHLAM"
   }
 ]

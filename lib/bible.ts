@@ -1,6 +1,20 @@
 import catalog from './books.json';
-export type Lang = 'en' | 'my';
-export type Verse = { n: number; text: string };
+export type UiLang = 'en' | 'my';
+export type Lang = UiLang | 'clt' | 'cnh';
+export const bibleLanguages: Lang[] = ['en', 'my', 'clt', 'cnh'];
+export function isChin(lang: Lang) {
+  return lang === 'clt' || lang === 'cnh';
+}
+export function isLang(value: unknown): value is Lang {
+  return value === 'en' || value === 'my' || value === 'clt' || value === 'cnh';
+}
+export type Verse = { n: number; end?: number; text: string; note?: string };
+export function verseLabel(verse: Verse) {
+  return verse.end ? `${verse.n}–${verse.end}` : String(verse.n);
+}
+export function containsVerse(verse: Verse, number: number) {
+  return number >= verse.n && number <= (verse.end ?? verse.n);
+}
 export type BibleBook = { id: number; name: string; chapters: Verse[][] };
 export const books = catalog;
 export function location(book: number, chapter: number) {
@@ -29,7 +43,18 @@ export function step(book: number, chapter: number, direction: number) {
   return { book: b, chapter: c };
 }
 export function audioPage(lang: Lang, book: number) {
+  if (isChin(lang)) return undefined;
   return `https://www.wordproject.org/bibles/audio/${lang === 'en' ? '01_english' : '43_burmese'}/b${String(book).padStart(2, '0')}.htm`;
+}
+// Narration sources linked by Wordproject's English and Burmese listening pages.
+export function audioSource(lang: Lang, book: number, chapter: number) {
+  if (isChin(lang)) return undefined;
+  const pos = location(book, chapter);
+  const base =
+    lang === 'en'
+      ? 'https://kjv.wordfree.net/bibles/app/audio/1'
+      : 'https://www.wordproaudio.net/bibles/app/audio/43';
+  return `${base}/${pos.book}/${pos.chapter}.mp3`;
 }
 export function searchBible(data: BibleBook[], query: string, book = 0) {
   const q = query.trim().normalize('NFC').toLocaleLowerCase();

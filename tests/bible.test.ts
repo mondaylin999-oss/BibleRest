@@ -7,6 +7,11 @@ import {
   step,
   searchBible,
   audioPage,
+  audioSource,
+  bibleLanguages,
+  isLang,
+  containsVerse,
+  verseLabel,
   type BibleBook,
 } from '../lib/bible';
 const load = (lang: string): BibleBook[] =>
@@ -52,6 +57,80 @@ void test('navigation crosses books and testaments and stops at Bible boundaries
   assert.equal(step(1, 1, -1), null);
   assert.equal(step(66, 22, 1), null);
   assert.deepEqual(step(19, 150, 1), { book: 20, chapter: 1 });
+});
+void test('chapter audio uses HTTPS media sources for both languages', () => {
+  assert.equal(
+    audioSource('en', 1, 1),
+    'https://kjv.wordfree.net/bibles/app/audio/1/1/1.mp3',
+  );
+  assert.equal(
+    audioSource('my', 66, 22),
+    'https://www.wordproaudio.net/bibles/app/audio/43/66/22.mp3',
+  );
+  assert.equal(
+    audioSource('en', 19, 150),
+    'https://kjv.wordfree.net/bibles/app/audio/1/19/150.mp3',
+  );
+  assert.equal(audioSource('my', 999, 999), audioSource('my', 66, 22));
+});
+void test('Chin Lutuv has the complete source corpus and original book names', () => {
+  const data = load('clt');
+  assert.ok(bibleLanguages.includes('clt'));
+  assert.equal(isLang('clt'), true);
+  assert.equal(isLang('unknown'), false);
+  assert.equal(data.length, 66);
+  assert.equal(
+    data.reduce((sum, book) => sum + book.chapters.length, 0),
+    1189,
+  );
+  let entries = 0;
+  for (const [index, book] of data.entries()) {
+    assert.equal(book.id, index + 1);
+    assert.equal(book.name, books[index].clt);
+    assert.equal(book.chapters.length, books[index].chapters);
+    for (const chapter of book.chapters) {
+      assert.ok(chapter.length);
+      let previous = 0;
+      for (const verse of chapter) {
+        assert.ok(verse.n > previous);
+        previous = verse.end ?? verse.n;
+        assert.ok(previous >= verse.n);
+        assert.ok(verse.text || verse.note);
+        assert.doesNotMatch(verse.text + (verse.note ?? ''), /[\\<>\uFFFD]/);
+        entries++;
+      }
+    }
+  }
+  assert.equal(entries, 31094);
+  assert.equal(data[0].name, 'SAHRUOTHUNA');
+  assert.equal(
+    data[0].chapters[0][0].text,
+    'A hruothu lie Khazing ta alyi hne avuo a sa tiy yi ta,',
+  );
+  assert.ok(
+    searchBible(data, 'khazing', 1).some(
+      (m) => m.chapter === 1 && m.verse.n === 1,
+    ),
+  );
+});
+void test('Lutuv preserves verse bridges and notes without adding narration', () => {
+  const data = load('clt');
+  const bridge = data
+    .flatMap((book) => book.chapters.flat())
+    .find((v) => v.end)!;
+  assert.ok(bridge);
+  assert.equal(containsVerse(bridge, bridge.end!), true);
+  assert.equal(containsVerse(bridge, bridge.end! + 1), false);
+  assert.equal(verseLabel(bridge), `${bridge.n}–${bridge.end}`);
+  assert.equal(data[23].chapters[8][0].n, 1);
+  assert.match(data[23].chapters[8][0].text, /^Ama thiepa/);
+  for (const number of [44, 46]) {
+    const verse = data[40].chapters[8].find((v) => v.n === number)!;
+    assert.equal(verse.text, '');
+    assert.ok(verse.note);
+  }
+  assert.equal(audioSource('clt', 1, 1), undefined);
+  assert.equal(audioPage('clt', 1), undefined);
 });
 void test('invalid deep links are clamped', () => {
   assert.deepEqual(location(999, 999), { book: 66, chapter: 22 });

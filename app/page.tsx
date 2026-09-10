@@ -1,10 +1,16 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { CopyPassage } from '../components/copy-passage';
 import {
   books,
+  bibleLanguages,
+  isLang,
+  verseLabel,
+  containsVerse,
+  type UiLang,
   location,
   step,
-  audioPage,
+  audioSource,
   searchBible,
   readSetting,
   saveSetting,
@@ -26,6 +32,7 @@ type Mark = {
   book: number;
   chapter: number;
   verse: number;
+  end?: number;
   text: string;
 };
 const words = {
@@ -52,12 +59,11 @@ const words = {
     start: 'Where should I start reading the Bible?',
     startLink: 'Start with the Gospel of John',
     listen: 'Listen to this chapter',
-    official: 'Listen on Wordproject',
     localAudio: 'Choose a recording',
     audioHelp:
-      'Add a chapter MP3 to listen here, or open the original narration page.',
+      'Press play to listen to the selected chapter. An internet connection is required, or you can choose your own recording.',
     audioMissing:
-      'No local recording for this chapter. Choose a file or listen on Wordproject.',
+      'The recording could not be loaded. Check your connection and retry, or choose an audio file.',
     audioError:
       'This recording could not be played. Try another supported audio file.',
     auto: 'Play next chapter automatically',
@@ -87,11 +93,11 @@ const words = {
     print: 'Print / Save PDF',
     about: 'About this project',
     aboutText:
-      'An independent English–Myanmar reader based on the Wordproject reference. Bible text is provided by Wordproject. This project is not affiliated with Wordproject.',
+      'An English, Myanmar and Chin Bible reader for reading, listening and saving your favorite verses.',
     offline:
-      'Both complete text Bibles are included. No account or database is required. Your preferences and saved verses stay in this browser.',
+      'All three complete text Bibles are included. No account or database is required. Your preferences and saved verses stay in this browser.',
     audioNote:
-      'Recorded audio is not bundled. Wordproject asks other apps not to hotlink its entire audio library. Use the original listening pages or supply recordings you may use.',
+      'Listen to English and Myanmar chapter recordings online, or import your own audio files for this session.',
     folder: 'Load an audio folder',
     folderHelp:
       'Folder layout: en/1/1.mp3 and my/1/1.mp3 (language / book number / chapter number). Imported files stay in this session; choose them again after reopening.',
@@ -116,7 +122,11 @@ const words = {
     audioResume: 'Press play to start the next recording.',
     downloadHint:
       'JSON text files can be downloaded for offline use. To make a PDF, open a chapter and choose Print / Save PDF.',
-    version: 'English: King James Version · Myanmar: Wordproject Myanmar text',
+    version:
+      'English: King James Version · Myanmar: Myanmar Bible · Chin Lutuv: Lutuv Bible',
+    noLutuvAudio:
+      'This Chin Bible is available as text. Audio is not included.',
+    textNote: 'Translation note',
     savedAudio: 'Local recording',
     jump: 'Open chapter',
   },
@@ -143,11 +153,11 @@ const words = {
     start: 'ကျမ်းစာကို ဘယ်ကစဖတ်ရမလဲ။',
     startLink: 'ရှင်ယောဟန်ခရစ်ဝင်ကျမ်းမှ စဖတ်ပါ',
     listen: 'ဤအခန်းကို နားထောင်ရန်',
-    official: 'Wordproject တွင် နားထောင်ရန်',
     localAudio: 'အသံဖိုင် ရွေးချယ်ရန်',
-    audioHelp: 'ဤနေရာတွင် နားထောင်ရန် MP3 ဖိုင်ထည့်ပါ သို့မဟုတ် မူရင်းအသံစာမျက်နှာကို ဖွင့်ပါ။',
+    audioHelp:
+      'ရွေးချယ်ထားသောအခန်းကို နားထောင်ရန် ဖွင့်ခလုတ်ကို နှိပ်ပါ။ အင်တာနက်လိုအပ်ပါသည် သို့မဟုတ် ကိုယ်ပိုင်အသံဖိုင်ကို ရွေးချယ်နိုင်ပါသည်။',
     audioMissing:
-      'ဤအခန်းအတွက် အသံဖိုင်မရှိပါ။ ဖိုင်ရွေးချယ်ပါ သို့မဟုတ် Wordproject တွင် နားထောင်ပါ။',
+      'အသံဖိုင်ကို ဖွင့်၍မရပါ။ အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ သို့မဟုတ် အသံဖိုင် ရွေးချယ်ပါ။',
     audioError: 'အသံဖိုင်ကို ဖွင့်၍မရပါ။ အခြားအသံဖိုင်ကို ရွေးချယ်ပါ။',
     auto: 'နောက်အခန်းကို အလိုအလျောက်ဖွင့်ရန်',
     speed: 'အသံဖွင့်နှုန်း',
@@ -175,11 +185,11 @@ const words = {
     print: 'ပုံနှိပ်ရန် / PDF သိမ်းရန်',
     about: 'ဤပရောဂျက်အကြောင်း',
     aboutText:
-      'Wordproject ကို ကိုးကားထားသော အင်္ဂလိပ်–မြန်မာ ကျမ်းစာဖတ်ရှုစနစ် ဖြစ်ပါသည်။ ကျမ်းစာစာသားသည် Wordproject မှဖြစ်ပြီး ဤပရောဂျက်သည် Wordproject နှင့် ဆက်နွှယ်မှုမရှိပါ။',
+      'ကျမ်းစာဖတ်ရန်၊ နားထောင်ရန်နှင့် နှစ်သက်သောကျမ်းပိုဒ်များကို သိမ်းရန် အင်္ဂလိပ်၊ မြန်မာနှင့် Chin Lutuv ကျမ်းစာဖတ်ရှုစနစ် ဖြစ်ပါသည်။',
     offline:
-      'ကျမ်းစာစာသား နှစ်ဘာသာလုံး အပြည့်အစုံပါဝင်ပါသည်။ အကောင့်နှင့် ဒေတာဘေ့စ် မလိုပါ။ ဆက်တင်နှင့် သိမ်းထားသောကျမ်းပိုဒ်များကို ဤဘရောက်ဇာတွင်သာ သိမ်းပါသည်။',
+      'ကျမ်းစာစာသား သုံးဘာသာလုံး အပြည့်အစုံပါဝင်ပါသည်။ အကောင့်နှင့် ဒေတာဘေ့စ် မလိုပါ။ ဆက်တင်နှင့် သိမ်းထားသောကျမ်းပိုဒ်များကို ဤဘရောက်ဇာတွင်သာ သိမ်းပါသည်။',
     audioNote:
-      'အသံဖိုင်များ မပါဝင်ပါ။ Wordproject က အခြားအက်ပ်များမှ ၎င်း၏အသံဖိုင်အားလုံးကို တိုက်ရိုက်ချိတ်ဆက်ခြင်း မပြုရန် တောင်းဆိုထားပါသည်။ မူရင်းစာမျက်နှာတွင် နားထောင်ပါ သို့မဟုတ် အသုံးပြုခွင့်ရှိသော အသံဖိုင်များ ထည့်ပါ။',
+      'အင်္ဂလိပ်နှင့် မြန်မာအသံဖိုင်များကို အွန်လိုင်းတွင် နားထောင်ပါ သို့မဟုတ် ကိုယ်ပိုင်အသံဖိုင်များ ထည့်ပါ။',
     folder: 'အသံဖိုင်ဖိုလ်ဒါ ဖွင့်ရန်',
     folderHelp:
       'ဖိုလ်ဒါပုံစံ: en/1/1.mp3 နှင့် my/1/1.mp3 (ဘာသာ / ကျမ်းစောင်နံပါတ် / အခန်းနံပါတ်)။ ပြန်ဖွင့်သည့်အခါ ဖိုင်များကို ထပ်ရွေးရန်လိုပါသည်။',
@@ -203,7 +213,10 @@ const words = {
     audioResume: 'နောက်အသံဖိုင်ကို စတင်ရန် ဖွင့်ခလုတ်ကို နှိပ်ပါ။',
     downloadHint:
       'အော့ဖ်လိုင်းအသုံးပြုရန် JSON စာသားဖိုင်များကို ဒေါင်းလုဒ်နိုင်ပါသည်။ PDF အတွက် အခန်းတစ်ခန်းဖွင့်ပြီး ပုံနှိပ်ရန် / PDF သိမ်းရန်ကို ရွေးပါ။',
-    version: 'အင်္ဂလိပ်: King James Version · မြန်မာ: Wordproject ကျမ်းစာ',
+    version:
+      'အင်္ဂလိပ်: King James Version · မြန်မာ: မြန်မာကျမ်းစာ · Chin Lutuv: Lutuv Bible',
+    noLutuvAudio: 'Chin Lutuv ကို စာသားဖြင့် ဖတ်ရှုနိုင်ပါသည်။ အသံ မပါဝင်ပါ။',
+    textNote: 'ဘာသာပြန်မှတ်ချက်',
     savedAudio: 'ထည့်ထားသောအသံဖိုင်',
     jump: 'အခန်းဖွင့်ရန်',
   },
@@ -250,9 +263,10 @@ const dailyRefs = [
   [43, 14, 27],
 ];
 export default function Home() {
-  const [ui, setUi] = useState<Lang>('en'),
+  const [ui, setUi] = useState<UiLang>('en'),
     [lang, setLang] = useState<Lang>('en'),
     [page, setPage] = useState<Page>('home'),
+    [showChin, setShowChin] = useState(false),
     [book, setBook] = useState(1),
     [chapter, setChapter] = useState(1),
     [font, setFont] = useState(20),
@@ -279,7 +293,7 @@ export default function Home() {
   const w = words[ui],
     current = data[lang]?.[book - 1]?.chapters[chapter - 1],
     key = `${lang}/${book}/${chapter}`,
-    src = sources.current.get(key) || `/audio/${key}.mp3`;
+    src = sources.current.get(key) || audioSource(lang, book, chapter);
   useEffect(() => {
     const ownedSources = sources.current;
     const s = readSetting('settings', {
@@ -291,7 +305,7 @@ export default function Home() {
       chapter: 1,
     });
     setUi(s.ui === 'my' ? 'my' : 'en');
-    setLang(s.lang === 'my' ? 'my' : 'en');
+    setLang(isLang(s.lang) ? s.lang : 'en');
     setFont(Math.max(16, Math.min(32, Number(s.font) || 20)));
     setDark(s.dark === true);
     const pos = location(s.book, s.chapter);
@@ -304,7 +318,7 @@ export default function Home() {
             .filter(
               (m) =>
                 m &&
-                (m.lang === 'en' || m.lang === 'my') &&
+                isLang(m.lang) &&
                 Number.isInteger(m.book) &&
                 m.book >= 1 &&
                 m.book <= 66 &&
@@ -326,7 +340,10 @@ export default function Home() {
             ? (p.get('page') as Page)
             : 'home',
         );
-      if (p.has('lang')) setLang(p.get('lang') === 'my' ? 'my' : 'en');
+      if (p.has('lang')) {
+        const language = p.get('lang');
+        setLang(isLang(language) ? language : 'en');
+      }
       if (p.has('book')) {
         const l = location(Number(p.get('book')), Number(p.get('chapter')));
         setBook(l.book);
@@ -356,10 +373,13 @@ export default function Home() {
     const controller = new AbortController();
     setError(false);
     Promise.all(
-      (['en', 'my'] as Lang[]).map(async (l) => {
-        const response = await fetch(`/data/${l}.json`, {
-          signal: controller.signal,
-        });
+      bibleLanguages.map(async (l) => {
+        const response = await fetch(
+          `${import.meta.env.BASE_URL}data/${l}.json`,
+          {
+            signal: controller.signal,
+          },
+        );
         if (!response.ok) throw Error();
         const body = await response.json();
         setData((d) => ({ ...d, [l]: body }));
@@ -383,7 +403,9 @@ export default function Home() {
     if (selected && current) {
       requestAnimationFrame(() =>
         document
-          .getElementById(`v${selected}`)
+          .getElementById(
+            `v${current.find((v) => containsVerse(v, selected))?.n ?? selected}`,
+          )
           ?.scrollIntoView({ block: 'center' }),
       );
     }
@@ -414,7 +436,14 @@ export default function Home() {
     }
   }
   function save(v: Verse, l = lang) {
-    const mark = { lang: l, book, chapter, verse: v.n, text: v.text };
+    const mark = {
+      lang: l,
+      book,
+      chapter,
+      verse: v.n,
+      end: v.end,
+      text: v.text || v.note || '',
+    };
     setMarks((ms) =>
       ms.some(
         (m) =>
@@ -443,7 +472,7 @@ export default function Home() {
       setNotice(text);
     }
   }
-  function ref(b: number, c: number, v?: number, l = lang) {
+  function ref(b: number, c: number, v?: number | string, l = lang) {
     return `${books[b - 1][l]} ${c}${v ? ':' + v : ''}`;
   }
   function importAudio(files: FileList | null, folder = false) {
@@ -479,6 +508,8 @@ export default function Home() {
       >
         <option value="en">English</option>
         <option value="my">မြန်မာ</option>
+        <option value="clt">Chin (Lutuv)</option>
+        <option value="cnh">Chin (Hakha)</option>
       </select>
     </label>
   );
@@ -513,112 +544,128 @@ export default function Home() {
       </label>
     </div>
   );
-  const player = (
-    <section className="audio-panel" aria-label={w.audio}>
-      <h3>
-        {w.listen} — {ref(book, chapter)}
-      </h3>
-      <audio
-        key={`${key}:${audioVersion}`}
-        ref={audio}
-        controls
-        preload="none"
-        src={src}
-        loop={repeat}
-        onError={() => {
-          setAudioError(true);
-          continueAudio.current = false;
-        }}
-        onCanPlay={() => {
-          if (continueAudio.current) {
+  const player =
+    lang === 'clt' ? (
+      page === 'audio' ? (
+        <p>{w.noLutuvAudio}</p>
+      ) : null
+    ) : (
+      <section className="audio-panel" aria-label={w.audio}>
+        <h3>
+          {w.listen} — {ref(book, chapter)}
+        </h3>
+        <audio
+          key={`${key}:${audioVersion}`}
+          ref={audio}
+          controls
+          preload="none"
+          src={src}
+          loop={repeat}
+          onError={() => {
+            setAudioError(true);
             continueAudio.current = false;
-            audio.current?.play().catch(() => setNotice(w.audioResume));
-          }
-        }}
-        onEnded={() => {
-          if (auto && !repeat) move(1, true);
-        }}
-        onLoadedMetadata={() => {
-          if (audio.current) audio.current.playbackRate = rate;
-        }}
-      />
-      {audioError && (
-        <output>
-          {sources.current.has(key) ? w.audioError : w.audioMissing}
-        </output>
-      )}
-      <div className="audio-options">
-        <label>
-          {w.speed}
-          <select
-            value={rate}
-            onChange={(e) => setRate(Number(e.target.value))}
-          >
-            {[0.5, 0.75, 1, 1.25, 1.5, 2].map((n) => (
-              <option key={n} value={n}>
-                {n}×
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="check">
-          <input
-            type="checkbox"
-            checked={auto}
-            onChange={(e) => setAuto(e.target.checked)}
-          />
-          {w.auto}
-        </label>
-        <label className="check">
-          <input
-            type="checkbox"
-            checked={repeat}
-            onChange={(e) => setRepeat(e.target.checked)}
-          />
-          {w.repeat}
-        </label>
-      </div>
-      <div className="row">
-        <label className="file-button">
-          {w.localAudio}
-          <input
-            type="file"
-            accept="audio/*"
-            onChange={(e) => importAudio(e.target.files)}
-          />
-        </label>
-        <a
-          className="button"
-          href={audioPage(lang, book)}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {w.official} ↗
-        </a>
-      </div>
-      <p className="muted small">{w.audioHelp}</p>
-    </section>
-  );
+          }}
+          onCanPlay={() => {
+            if (continueAudio.current) {
+              continueAudio.current = false;
+              audio.current?.play().catch(() => setNotice(w.audioResume));
+            }
+          }}
+          onEnded={() => {
+            if (auto && !repeat) move(1, true);
+          }}
+          onLoadedMetadata={() => {
+            if (audio.current) audio.current.playbackRate = rate;
+          }}
+        />
+        {audioError && (
+          <div role="alert">
+            <p>{sources.current.has(key) ? w.audioError : w.audioMissing}</p>
+            <button
+              onClick={() => {
+                setAudioError(false);
+                audio.current?.load();
+                audio.current?.play().catch(() => setAudioError(true));
+              }}
+            >
+              {w.retry}
+            </button>
+          </div>
+        )}
+        <div className="audio-options">
+          <label>
+            {w.speed}
+            <select
+              value={rate}
+              onChange={(e) => setRate(Number(e.target.value))}
+            >
+              {[0.5, 0.75, 1, 1.25, 1.5, 2].map((n) => (
+                <option key={n} value={n}>
+                  {n}×
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={auto}
+              onChange={(e) => setAuto(e.target.checked)}
+            />
+            {w.auto}
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={repeat}
+              onChange={(e) => setRepeat(e.target.checked)}
+            />
+            {w.repeat}
+          </label>
+        </div>
+        <div className="row">
+          <label className="file-button">
+            {w.localAudio}
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(e) => importAudio(e.target.files)}
+            />
+          </label>
+        </div>
+        <p className="muted small">{w.audioHelp}</p>
+      </section>
+    );
   function verse(v: Verse, l = lang) {
     return (
       <div
-        className={`verse ${selected === v.n ? 'selected' : ''}`}
+        className={`verse ${containsVerse(v, selected) ? 'selected' : ''}`}
         key={v.n}
         id={l === lang ? `v${v.n}` : undefined}
         lang={l}
       >
         <button
           className="verse-number"
-          aria-label={`${w.select} ${v.n}`}
+          aria-label={`${w.select} ${verseLabel(v)}`}
           onClick={() => setSelected(v.n)}
         >
-          {v.n}
+          {verseLabel(v)}
         </button>
-        <span>{v.text}</span>
-        {selected === v.n && (
+        <span>
+          {v.text || (
+            <em className="muted">
+              {w.textNote}: {v.note}
+            </em>
+          )}
+        </span>
+        {containsVerse(v, selected) && (
           <div className="verse-tools">
             <button
-              onClick={() => copy(`${ref(book, chapter, v.n, l)} — ${v.text}`)}
+              onClick={() =>
+                copy(
+                  `${ref(book, chapter, verseLabel(v), l)} — ${v.text || v.note}`,
+                )
+              }
             >
               {w.copy}
             </button>
@@ -667,7 +714,7 @@ export default function Home() {
   }
   const daily = dailyRefs[Math.floor(Date.now() / 86400000) % dailyRefs.length];
   const dailyVerse = data[lang]?.[daily[0] - 1]?.chapters[daily[1] - 1]?.find(
-    (v) => v.n === daily[2],
+    (v) => containsVerse(v, daily[2]),
   );
   const matches = data[lang]
     ? searchBible(data[lang]!, searchTerm, filter)
@@ -686,8 +733,9 @@ export default function Home() {
               go('home');
             }}
           >
-            <strong>Word</strong>
-            <em>Bible</em>
+            <strong>
+              Bible<span>Rest</span>
+            </strong>
           </a>
         </div>
       </header>
@@ -791,9 +839,13 @@ export default function Home() {
                 </button>
               </p>
             </section>
-            <h2>{w.audio}</h2>
-            <p>{w.audioHelp}</p>
-            <button onClick={() => go('audio')}>{w.listen} →</button>
+            {lang !== 'clt' && (
+              <>
+                <h2>{w.audio}</h2>
+                <p>{w.audioHelp}</p>
+                <button onClick={() => go('audio')}>{w.listen} →</button>
+              </>
+            )}
             <aside className="start">
               <h3>{w.start}</h3>
               <a
@@ -815,7 +867,20 @@ export default function Home() {
               <button lang="my" onClick={() => go('bibles', 1, 1, 'my')}>
                 မြန်မာသမ္မာကျမ်းစာ <small>မြန်မာ · Myanmar</small>
               </button>
+              <button onClick={() => setShowChin((open) => !open)}>
+                Chin <small>Choose Lutuv or Hakha</small>
+              </button>
             </div>
+            {showChin && (
+              <div className="chin-choices" aria-label="Chin language">
+                <button onClick={() => go('bibles', 1, 1, 'clt')}>
+                  Lutuv →
+                </button>
+                <button onClick={() => go('bibles', 1, 1, 'cnh')}>
+                  Hakha →
+                </button>
+              </div>
+            )}
             <h2>{w.resources}</h2>
             <p>{w.offline}</p>
             <button onClick={() => go('resources')}>{w.download} →</button>
@@ -824,7 +889,11 @@ export default function Home() {
         {page === 'bibles' && (
           <>
             <h1>
-              {lang === 'my' ? 'မြန်မာသမ္မာကျမ်းစာ' : 'The Holy Bible — KJV'}
+              {lang === 'clt'
+                ? 'Chin Bible — Lutuv'
+                : lang === 'my'
+                  ? 'မြန်မာသမ္မာကျမ်းစာ'
+                  : 'The Holy Bible — KJV'}
             </h1>
             {languages}
             {bookList('read')}
@@ -832,6 +901,15 @@ export default function Home() {
         )}
         {(page === 'read' || page === 'audio') && (
           <>
+            {page === 'read' && (
+              <CopyPassage
+                key={`${lang}/${book}/${chapter}`}
+                bible={data[lang]?.[book - 1]}
+                title={books[book - 1][lang]}
+                chapter={chapter}
+                ui={ui}
+              />
+            )}
             <h1>{page === 'audio' ? w.audio : books[book - 1][lang]}</h1>
             {controls}
             {player}
@@ -935,7 +1013,7 @@ export default function Home() {
                     go('read', m.book, m.chapter, lang, m.verse.n);
                   }}
                 >
-                  {ref(m.book, m.chapter, m.verse.n)}
+                  {ref(m.book, m.chapter, verseLabel(m.verse))}
                 </a>
                 <p lang={lang}>{m.verse.text}</p>
               </section>
@@ -966,8 +1044,8 @@ export default function Home() {
                       </a>
                       <p lang={lang}>
                         {
-                          data[lang]?.[b - 1].chapters[c - 1].find(
-                            (v) => v.n === n,
+                          data[lang]?.[b - 1].chapters[c - 1].find((v) =>
+                            containsVerse(v, n),
                           )?.text
                         }
                       </p>
@@ -990,7 +1068,12 @@ export default function Home() {
                     go('read', m.book, m.chapter, m.lang, m.verse);
                   }}
                 >
-                  {ref(m.book, m.chapter, m.verse, m.lang)}
+                  {ref(
+                    m.book,
+                    m.chapter,
+                    m.end ? `${m.verse}–${m.end}` : m.verse,
+                    m.lang,
+                  )}
                 </a>
                 <p lang={m.lang}>{m.text}</p>
                 <button
@@ -1010,38 +1093,29 @@ export default function Home() {
             <div className="row">
               <a
                 className="button"
-                href="/data/en.json"
+                href={`${import.meta.env.BASE_URL}data/en.json`}
                 download="english-kjv.json"
               >
                 English ↓
               </a>
               <a
                 className="button"
-                href="/data/my.json"
+                href={`${import.meta.env.BASE_URL}data/my.json`}
                 download="myanmar-bible.json"
               >
                 မြန်မာ ↓
               </a>
+              <a
+                className="button"
+                href={`${import.meta.env.BASE_URL}data/clt.json`}
+                download="chin-lutuv-bible.json"
+              >
+                Chin Lutuv ↓
+              </a>
             </div>
             <h2>{w.audio}</h2>
             <p>{w.audioNote}</p>
-            <p>
-              <a
-                href="https://www.wordproject.org/bibles/audio/01_english/index.htm"
-                target="_blank"
-                rel="noreferrer"
-              >
-                English ↗
-              </a>{' '}
-              ·{' '}
-              <a
-                href="https://www.wordproject.org/bibles/audio/43_burmese/index.htm"
-                target="_blank"
-                rel="noreferrer"
-              >
-                မြန်မာ ↗
-              </a>
-            </p>
+
             <label className="file-button">
               {w.folder}
               <input
@@ -1057,13 +1131,6 @@ export default function Home() {
             <p>{w.aboutText}</p>
             <p>{w.offline}</p>
             <p>{w.version}</p>
-            <a
-              href="https://www.wordproject.org/contact/new/copyrights.htm"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Wordproject · Copyrights ↗
-            </a>
           </>
         )}
         {page === 'settings' && (
@@ -1074,7 +1141,7 @@ export default function Home() {
                 {w.interface}
                 <select
                   value={ui}
-                  onChange={(e) => setUi(e.target.value as Lang)}
+                  onChange={(e) => setUi(e.target.value as UiLang)}
                 >
                   <option value="en">English</option>
                   <option value="my">မြန်မာ</option>
@@ -1117,14 +1184,6 @@ export default function Home() {
       <footer>
         <div className="wrap">
           <p>{w.aboutText}</p>
-          <a
-            href="https://www.wordproject.org/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Wordproject ↗
-          </a>{' '}
-          ·{' '}
           <button className="text-link" onClick={() => go('resources')}>
             {w.resources}
           </button>{' '}
