@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { CopyPassage } from '../components/copy-passage';
 import {
   books,
-  bibleLanguages,
   isLang,
   verseLabel,
   containsVerse,
@@ -370,25 +369,24 @@ export default function Home() {
     if (ready && !saveSetting('marks', marks)) setNotice(words[ui].storage);
   }, [marks, ready, ui]);
   useEffect(() => {
+    if (data[lang]) return;
     const controller = new AbortController();
     setError(false);
-    Promise.all(
-      bibleLanguages.map(async (l) => {
-        const response = await fetch(
-          `${import.meta.env.BASE_URL}data/${l}.json`,
-          {
-            signal: controller.signal,
-          },
-        );
-        if (!response.ok) throw Error();
-        const body = await response.json();
-        setData((d) => ({ ...d, [l]: body }));
-      }),
-    ).catch((e) => {
+    (async () => {
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}data/${lang}.json`,
+        {
+          signal: controller.signal,
+        },
+      );
+      if (!response.ok) throw Error();
+      const body = await response.json();
+      setData((d) => ({ ...d, [lang]: body }));
+    })().catch((e) => {
       if (e.name !== 'AbortError') setError(true);
     });
     return () => controller.abort();
-  }, [retry]);
+  }, [data, lang, retry]);
   useEffect(() => {
     if (audio.current) audio.current.playbackRate = rate;
   }, [rate, src]);
