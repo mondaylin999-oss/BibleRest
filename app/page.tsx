@@ -109,6 +109,8 @@ const words = {
     highlight: 'Selected verse',
     status: 'Ready',
     close: 'Close',
+    menu: 'Menu',
+    navigation: 'Main navigation',
     topics: 'Verses by topic',
     faith: 'Faith',
     hope: 'Hope',
@@ -200,6 +202,8 @@ const words = {
     highlight: 'ရွေးချယ်ထားသောကျမ်းပိုဒ်',
     status: 'အဆင်သင့်',
     close: 'ပိတ်ရန်',
+    menu: 'မီနူး',
+    navigation: 'အဓိက လမ်းညွှန်',
     topics: 'အကြောင်းအရာအလိုက် ကျမ်းပိုဒ်များ',
     faith: 'ယုံကြည်ခြင်း',
     hope: 'မျှော်လင့်ခြင်း',
@@ -284,6 +288,7 @@ export default function Home() {
     [rate, setRate] = useState(1),
     [auto, setAuto] = useState(true),
     [repeat, setRepeat] = useState(false),
+    [menuOpen, setMenuOpen] = useState(false),
     [audioVersion, setAudioVersion] = useState(0),
     [audioError, setAudioError] = useState(false);
   const audio = useRef<HTMLAudioElement>(null),
@@ -417,6 +422,7 @@ export default function Home() {
     setChapter(pos.chapter);
     setLang(l);
     setSelected(v);
+    setMenuOpen(false);
     window.location.hash = new URLSearchParams({
       page: p,
       lang: l,
@@ -722,38 +728,79 @@ export default function Home() {
       <a className="skip" href="#main">
         {w.read}
       </a>
-      <header>
-        <div className="wrap brand">
+      <header className="site-header">
+        <div className="wrap header-shell">
           <a
+            className="brand"
             href="#page=home"
             onClick={(e) => {
               e.preventDefault();
               go('home');
             }}
           >
-            <strong>
-              Bible<span>Rest</span>
-            </strong>
+            <span className="brand-mark" aria-hidden="true">B</span>
+            <span className="brand-name">
+              Bible<strong>Rest</strong>
+            </span>
           </a>
+          <nav
+            className={`site-nav ${menuOpen ? 'is-open' : ''}`}
+            aria-label={w.navigation}
+          >
+            {pages.map((p) => (
+              <a
+                key={p}
+                href={`#page=${p}&lang=${lang}&book=${book}&chapter=${chapter}`}
+                aria-current={page === p ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(p);
+                }}
+              >
+                {w[p]}
+              </a>
+            ))}
+          </nav>
+          <div className="header-actions">
+            <button
+              className="header-control"
+              title={w.theme}
+              aria-label={w.theme}
+              onClick={() => setDark(!dark)}
+            >
+              {dark ? '☀' : '☾'}
+            </button>
+            <fieldset className="text-size-controls" aria-label={w.size}>
+              <button
+                className="header-control"
+                aria-label={`${w.size} −`}
+                disabled={font <= 16}
+                onClick={() => setFont((f) => f - 2)}
+              >
+                A−
+              </button>
+              <button
+                className="header-control"
+                aria-label={`${w.size} +`}
+                disabled={font >= 32}
+                onClick={() => setFont((f) => f + 2)}
+              >
+                A+
+              </button>
+            </fieldset>
+            <button
+              className="menu-toggle"
+              aria-label={w.menu}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
-      <nav aria-label={w.home}>
-        <div className="wrap navlinks">
-          {pages.map((p) => (
-            <a
-              key={p}
-              href={`#page=${p}&lang=${lang}&book=${book}&chapter=${chapter}`}
-              aria-current={page === p ? 'page' : undefined}
-              onClick={(e) => {
-                e.preventDefault();
-                go(p);
-              }}
-            >
-              {w[p]}
-            </a>
-          ))}
-        </div>
-      </nav>
       <main id="main" className="wrap">
         <div className="toolbar">
           <div>
@@ -761,29 +808,6 @@ export default function Home() {
               {w.home}
             </button>
             {page !== 'home' && <> / {w[page]}</>}
-          </div>
-          <div className="row">
-            <button
-              title={w.theme}
-              aria-label={w.theme}
-              onClick={() => setDark(!dark)}
-            >
-              {dark ? '☀' : '☾'}
-            </button>
-            <button
-              aria-label={`${w.size} −`}
-              disabled={font <= 16}
-              onClick={() => setFont((f) => f - 2)}
-            >
-              A−
-            </button>
-            <button
-              aria-label={`${w.size} +`}
-              disabled={font >= 32}
-              onClick={() => setFont((f) => f + 2)}
-            >
-              A+
-            </button>
           </div>
         </div>
         {notice && (
